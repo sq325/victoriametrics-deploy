@@ -1,7 +1,7 @@
 #!/bin/bash
-Version="v1.4.3"
+Version="v1.4.4"
 Date="2025-03-17"
-Info="vmauth.conf 缩进修正"
+Info="NODES 数组变量替换"
 
 # 定义颜色输出
 GREEN="\033[0;32m"
@@ -183,7 +183,8 @@ sed_cmd "s|\${Version}|${Version}|g" start.sh
 sed_cmd "s|\${Date}|${Date}|g" start.sh
 sed_cmd "s|\${Author}|${Author}|g" start.sh
 sed_cmd "s|\${Info}|${Info}|g" start.sh
-sed_cmd "s/\${NODES\[@\]}/${NODES[0]} ${NODES[1]} ${NODES[2]}/g" start.sh
+NODE_LIST=$(printf "'%s' " "${NODES[@]}" | sed 's/ $//')
+sed_cmd "s|\${NODES\[@\]}|${NODE_LIST}|g" start.sh
 sed_cmd "s|\${STORAGE_INSERT_ADDR}|${STORAGE_INSERT_ADDR}|g" start.sh
 sed_cmd "s|\${STORAGE_SELECT_ADDR}|${STORAGE_SELECT_ADDR}|g" start.sh
 sed_cmd "s|\${STORAGE_ADDR}|${STORAGE_ADDR}|g" start.sh
