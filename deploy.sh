@@ -1,7 +1,7 @@
 #!/bin/bash
-Version="v1.4.1"
-Date="2025-03-13"
-Info="vminset vmselect replicationFactor setting"
+Version="v1.4.2"
+Date="2025-03-17"
+Info="stop wait 2s * 8 times"
 
 # 定义颜色输出
 GREEN="\033[0;32m"
@@ -227,12 +227,12 @@ for pid in $pids; do
     echo "停止进程 $pid (${proc_name})..."
     kill $pid
     # 等待进程结束
-    for i in {1..5}; do
+    for (( i=0; i<8; i++ )); do
       if ! ps -p $pid > /dev/null; then
         echo "进程 $pid (${proc_name}) 已停止"
         break
       fi
-      sleep 1
+      sleep 2
     done
     # 如果进程仍在运行，强制终止
     if ps -p $pid > /dev/null; then
