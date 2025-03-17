@@ -1,7 +1,7 @@
 #!/bin/bash
-Version="v1.4.2"
+Version="v1.4.3"
 Date="2025-03-17"
-Info="stop wait 2s * 8 times"
+Info="vmauth.conf 缩进修正"
 
 # 定义颜色输出
 GREEN="\033[0;32m"
@@ -95,13 +95,13 @@ authSNConfig="-httpListenAddr=${authAddr} -auth.config=$authConf"
 
 function vmauthConfig() {
   configText="unauthorized_user:\n  url_map:"
-  configText+="\n  - src_paths:\n    - \"/insert/.+\"\n    url_prefix:"
+  configText+="\n    - src_paths:\n      - \"/insert/.+\"\n      url_prefix:"
   for node in "${nodes[@]}"; do
-    configText+="\n    - \"http://${node}${insertAddr}/\""
+    configText+="\n        - \"http://${node}${insertAddr}/\""
   done
-  configText+="\n  - src_paths:\n    - \"/select/.+\"\n    url_prefix:"
+  configText+="\n    - src_paths:\n      - \"/select/.+\"\n      url_prefix:"
   for node in "${nodes[@]}"; do
-    configText+="\n    - \"http://${node}${selectAddr}/\""
+    configText+="\n        - \"http://${node}${selectAddr}/\""
   done
   echo -e "$configText" > $authConf
   if [[ $? -ne 0 ]]; then
