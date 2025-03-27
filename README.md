@@ -35,7 +35,7 @@ NODES=("192.168.1.10" "192.168.1.11" "192.168.1.12")
 
 5. 其他操作:
 
-- 查看启动命令: ./start.sh -dryRunun
+- 查看启动命令: ./start.sh -dryRun
 - 查看服务状态: ./status.sh
 - 备份数据: ./backup.sh
 - 停止服务: ./stop.sh

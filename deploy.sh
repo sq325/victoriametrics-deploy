@@ -1,7 +1,7 @@
 #!/bin/bash
-Version="v1.4.4"
-Date="2025-03-17"
-Info="NODES 数组变量替换"
+Version="v1.4.5"
+Date="2025-03-27"
+Info="fix: -dryRun 不创建文件夹"
 
 # 定义颜色输出
 GREEN="\033[0;32m"
@@ -70,7 +70,7 @@ minScrapeInterval="${MinScrapeInterval}"
 # storage
 retentionPeriod=${RETENTION_PERIOD}
 storageDataPath='${STORAGE_DATA_PATH}'
-if [[ ! -d $storageDataPath ]]; then
+if [[ ! -d $storageDataPath && ! $1 == "-dryRun"  ]]; then
   mkdir -p $storageDataPath
 fi
 storageSNConfig="-retentionPeriod=$retentionPeriod -httpListenAddr=${storageAddr} -storageDataPath=$storageDataPath -vminsertAddr=$storageInsertAddr -vmselectAddr=$storageSelectAddr -dedup.minScrapeInterval=${minScrapeInterval}"
@@ -85,7 +85,7 @@ for i in "${nodes[@]}"; do
 done
 insertSNConfig+="-replicationFactor=${ReplicationFactor} "
 selectSNConfig+="-cacheDataPath=$selectCachePath -dedup.minScrapeInterval=${minScrapeInterval} -replicationFactor=${ReplicationFactor} "
-if [[ ! -d $selectCachePath ]]; then
+if [[ ! -d $selectCachePath && ! $1 == "-dryRun"  ]]; then
   mkdir -p $selectCachePath
 fi
 
