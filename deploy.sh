@@ -1,7 +1,7 @@
 #!/bin/bash
-Version="v1.4.5"
-Date="2025-03-27"
-Info="fix: -dryRun 不创建文件夹"
+Version="v1.5.0"
+Date="2025-05-07"
+Info="vmauth config add /admin to vmselect"
 
 # 定义颜色输出
 GREEN="\033[0;32m"
@@ -100,6 +100,10 @@ function vmauthConfig() {
     configText+="\n        - \"http://${node}${insertAddr}/\""
   done
   configText+="\n    - src_paths:\n      - \"/select/.+\"\n      url_prefix:"
+  for node in "${nodes[@]}"; do
+    configText+="\n        - \"http://${node}${selectAddr}/\""
+  done
+  configText+="\n    - src_paths:\n      - \"/admin/.+\"\n      url_prefix:"
   for node in "${nodes[@]}"; do
     configText+="\n        - \"http://${node}${selectAddr}/\""
   done
