@@ -5,4 +5,7 @@ vmauth
 vmbackup
 vmrestore
 vmalert
+vmagent
+vmalert-tool
+vmctl
 .DS_Store

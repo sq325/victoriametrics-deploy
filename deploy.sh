@@ -41,7 +41,8 @@ PidFile="./victoriametrics.pid"
 FirstNode=${NODES[0]}
 MinScrapeInterval="15s" # vmstorage, vmselect 去重间隔，-dedup.minScrapeInterval, 需要和vmagent的采集频率一致
 ReplicationFactor=2 # vmselect and vminsert replicationFactor
-
+# vmselect
+LatencyOffset=15s # vmselect -search.latencyOffset 采集后指标在查询时可见的延时
 
 # 创建 start.sh
 cat > start.sh << 'EOF'
@@ -84,7 +85,7 @@ for i in "${nodes[@]}"; do
   selectSNConfig+="-storageNode=$i${storageSelectAddr} "
 done
 insertSNConfig+="-replicationFactor=${ReplicationFactor} "
-selectSNConfig+="-cacheDataPath=$selectCachePath -dedup.minScrapeInterval=${minScrapeInterval} -replicationFactor=${ReplicationFactor} "
+selectSNConfig+="-cacheDataPath=$selectCachePath -dedup.minScrapeInterval=${minScrapeInterval} -replicationFactor=${ReplicationFactor} -search.latencyOffset=${latencyOffset} "
 if [[ ! -d $selectCachePath && ! $1 == "-dryRun"  ]]; then
   mkdir -p $selectCachePath
 fi
@@ -204,6 +205,7 @@ sed_cmd "s|\${PidFile}|${PidFile}|g" start.sh
 sed_cmd "s|\${FirstNode}|${FirstNode}|g" start.sh
 sed_cmd "s|\${MinScrapeInterval}|${MinScrapeInterval}|g" start.sh
 sed_cmd "s|\${ReplicationFactor}|${ReplicationFactor}|g" start.sh
+sed_cmd "s|\${LatencyOffset}|${LatencyOffset}|g" start.sh
 
 # 创建 stop.sh
 cat > stop.sh << 'EOF'
